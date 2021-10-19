@@ -4,20 +4,103 @@
 
 body {
     background-color: #0E0E0E;
+    text-transform: uppercase;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 h1 {
     color: white;
 }
-  
 h2 {
     color: rgb(212,164,28);
     font-size: 40px;
 }
+h3 {
+    color: white;
+    font-size: 30px;
+    margin-left: 65%;
+    margin-top: -200px;
+}
 
 .y {
     color: rgb(212,164,28)
+}
+
+a {
+    position: absolute;
+    left: 65%;
+    top: 25%;
+    padding-top: 30px;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 100%;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    width: 350px;
+    height: 150px;
+    line-height: 90px;
+    overflow: hidden;
+    border-radius: 150px;
+    box-sizing: border-box;
+    background-size: 400%;
+}
+
+a span {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    font-size: 70px;
+    font-weight: bold;
+}
+
+a span:hover {
+    font-size: 80px;
+    transition: 0.1s;
+    color: #0E0E0E;
+}
+
+a .liquid {
+    position: absolute;
+    left: 0;
+    top: -150px;
+    width: 400px;
+    height: 380px;
+    background: rgb(212,164,28);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, .5);
+    transition: 0.5s;
+}
+a:hover .liquid {
+    top: -220px;
+}
+a .liquid:before,
+a .liquid:after {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -75%);
+}
+a .liquid:before {
+    border-radius: 45%;
+    background: rgba(14, 14, 14, 1);
+    animation: animate 10s linear infinite;
+}
+a .liquid:after {
+    border-radius: 40%;
+    background: rgba(14, 14, 14, 0.5);
+    animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translate(-50%, -75%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -75%) rotate(360deg);
+    }
 }
 
 .container {
