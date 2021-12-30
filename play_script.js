@@ -1,4 +1,4 @@
-//Canvas setup
+//Canvas
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -8,7 +8,7 @@ let score = 0;
 let gameFrame = 0;
 ctx.font = '50px Georgia';
 
-//Mouse Interactivity
+//Interakce
 let canvasPosition = canvas.getBoundingClientRect();
 const mouse = {
     x: canvas.width/2,
@@ -74,9 +74,13 @@ class Bubble {
         this.radius = Math.random() * 20 + 10;
         this.speed = Math.random() * 5 + 1;
         this.distance;
+        this.counted = false;
     }
     update() {
         this.y -= this.speed;
+        const dx = this.x - player.x;
+        const dy = this.y - player.y;
+        this.distance = Math.sqrt(dx*dx + dy*dy);
     }
     draw() {
         ctx.fillStyle = 'blue';
@@ -99,10 +103,18 @@ function handleBubbles() {
         if(bubblesArray[i].y < 0 - bubblesArray[i].radius * 2) {
             bubblesArray.splice(i, 1);
         }
+        if(bubblesArray[i].distance < bubblesArray[i].radius + player.radius) {
+            (console.log('collision'));
+            if(!bubblesArray[i].counted) {
+                score ++;
+                bubblesArray[i].counted = true;
+                bubblesArray.splice(i, 1);
+            }
+        }
     }
 }
 
-//Animation loop
+//Animace
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     handleBubbles();
