@@ -10,12 +10,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #0E0E0E;
 }
 
 #canvas1 {
     width: 100%;
     height: 100%;
-    border: 4px solid black;
+    /*border: 4px solid black;*/
 }
 
 h1 {

@@ -102,7 +102,7 @@ class Bubble {
         this.distance = Math.sqrt(dx*dx + dy*dy);
     }
     draw() {
-        ctx.fillStyle = '#0E0E0E';
+        ctx.fillStyle = 'rgb(212,212,212)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.closePath();
@@ -145,9 +145,18 @@ function handleBubbles() {
     }
 }
 
+//Pozadí
+const background = new Image();
+background.src = 'Background1.png';
+
+function handleBackground() {
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+}
+
 //Animace
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    handleBackground();
     handleBubbles();
     player.update();
     player.draw();
