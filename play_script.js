@@ -11,7 +11,7 @@ ctx.font = '50px Georgia';
 //Mouse Interactivity
 let canvasPosition = canvas.getBoundingClientRect();
 const mouse = {
-    X: canvas.width/2,
+    x: canvas.width/2,
     y: canvas.height/2,
     click: false
 }
