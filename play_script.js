@@ -26,6 +26,10 @@ canvas.addEventListener('mouseup', function() {
 });
 
 //Player
+const playerLeft = new Image();
+playerLeft.src = 'Bubble_picture1.png';
+//const playerRight = new Image();
+//playerRight.src = 'Bubble_picture2.png';
 class PLayer {
     constructor() {
         this.x = canvas.width/2;
@@ -41,11 +45,13 @@ class PLayer {
     update() {
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
+        let theta = Math.atan2(dy, dx);
+        this.angle = theta;
         if(mouse.x != this.x) {
-            this.x -= dx/30;
+            this.x -= dx/20;
         }
         if(mouse.y != this.y) {
-            this.y -= dy/30;
+            this.y -= dy/20;
         }
     }
     draw() {
@@ -61,6 +67,18 @@ class PLayer {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
+
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        if(this.x >= mouse.x) {
+            ctx.drawImage(playerLeft, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
+            this.spriteWidth, this.spriteHeight, 0 - 50, 0 - 50, this.spriteWidth/3, this.spriteHeight/3);
+        } else {
+            ctx.drawImage(playerLeft, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
+            this.spriteWidth, this.spriteHeight, 0 - 50, 0 - 50, this.spriteWidth/3, this.spriteHeight/3);
+        }
+        ctx.restore();
     }
 }
 const player = new PLayer();
@@ -75,6 +93,7 @@ class Bubble {
         this.speed = Math.random() * 5 + 1;
         this.distance;
         this.counted = false;
+        this.sound = Math.random() <= 0.5 ? 'sound1' : 'sound2';
     }
     update() {
         this.y -= this.speed;
@@ -83,13 +102,20 @@ class Bubble {
         this.distance = Math.sqrt(dx*dx + dy*dy);
     }
     draw() {
-        ctx.fillStyle = 'blue';
+        ctx.fillStyle = '#0E0E0E';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.closePath();
+        ctx.fill();
         ctx.stroke();
     }
 }
+
+const bubblePop1 = document.createElement('audio');
+bubblePop1.src = 'Bubble1.mp3';
+const bubblePop2 = document.createElement('audio');
+bubblePop2.src = 'Bubble2.mp3';
+
 function handleBubbles() {
     if(gameFrame % 50 == 0) {
         bubblesArray.push(new Bubble());
@@ -104,8 +130,13 @@ function handleBubbles() {
             bubblesArray.splice(i, 1);
         }
         if(bubblesArray[i].distance < bubblesArray[i].radius + player.radius) {
-            (console.log('collision'));
+            (console.log('Bubble BUM'));
             if(!bubblesArray[i].counted) {
+                if(bubblesArray[i].sound == 'sound1') {
+                    bubblePop1.play();
+                } else {
+                    bubblePop2.play();
+                }
                 score ++;
                 bubblesArray[i].counted = true;
                 bubblesArray.splice(i, 1);
@@ -126,3 +157,7 @@ function animate() {
     requestAnimationFrame(animate);
 }
 animate();
+
+window.addEventListener('resize', function() {
+    canvasPosition = canvas.getBoundingClientRect();
+});
