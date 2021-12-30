@@ -70,8 +70,8 @@ const bubblesArray = [];
 class Bubble {
     constructor() {
         this.x = Math.random() * canvas.width;
-        this.y = canvas.height + Math.random() * canvas.width;
-        this.radius = 50;
+        this.y = canvas.height + 100;
+        this.radius = Math.random() * 20 + 10;
         this.speed = Math.random() * 5 + 1;
         this.distance;
     }
@@ -95,6 +95,11 @@ function handleBubbles() {
         bubblesArray[i].update();
         bubblesArray[i].draw();
     }
+    for (let i = 0; i < bubblesArray.length; i++) {
+        if(bubblesArray[i].y < 0 - bubblesArray[i].radius * 2) {
+            bubblesArray.splice(i, 1);
+        }
+    }
 }
 
 //Animation loop
@@ -103,6 +108,7 @@ function animate() {
     handleBubbles();
     player.update();
     player.draw();
+    ctx.fillText('Score: ' + score, 10, 50);
     gameFrame ++;
     //console.log(gameFrame);
     requestAnimationFrame(animate);
