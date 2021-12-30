@@ -1,14 +1,16 @@
-//Canvas
+//Canvas    ----------------------------------------------------------------------------------------------------------------
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let score = 0;
+let redBubble = 5;
 let gameFrame = 0;
-ctx.font = '50px Georgia';
+ctx.font = '50px Gill Sans MT';
+let gameSpeed = 1;
 
-//Interakce
+//Interakce ----------------------------------------------------------------------------------------------------------------
 let canvasPosition = canvas.getBoundingClientRect();
 const mouse = {
     x: canvas.width/2,
@@ -25,7 +27,7 @@ canvas.addEventListener('mouseup', function() {
     mouse.click = false;
 });
 
-//Player
+//Player    ----------------------------------------------------------------------------------------------------------------
 const playerLeft = new Image();
 playerLeft.src = 'Bubble_picture1.png';
 //const playerRight = new Image();
@@ -83,7 +85,7 @@ class PLayer {
 }
 const player = new PLayer();
 
-//Bubbles
+//Bubbles +  ----------------------------------------------------------------------------------------------------------------
 const bubblesArray = [];
 class Bubble {
     constructor() {
@@ -102,7 +104,7 @@ class Bubble {
         this.distance = Math.sqrt(dx*dx + dy*dy);
     }
     draw() {
-        ctx.fillStyle = 'rgb(212,212,212)';
+        ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.closePath();
@@ -145,19 +147,100 @@ function handleBubbles() {
     }
 }
 
-//Pozadí
+//Bubbles -  ----------------------------------------------------------------------------------------------------------------
+const bubblesArrayb = [];
+const bubbleImage = new Image();
+bubbleImage.src = 'Bubble_picture3.png';
+class Bubbleb {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + 100;
+        this.radius = 30;
+        this.speed = Math.random() * 5 + 1;
+        this.distance;
+        this.soundb = Math.random() <= 0.5 ? 'sound3' : 'sound4';
+    }
+    update() {
+        this.y -= this.speed;
+        const dx = this.x - player.x;
+        const dy = this.y - player.y;
+        this.distance = Math.sqrt(dx*dx + dy*dy);
+    }
+    draw() {
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.drawImage(bubbleImage, this.x - 30, this.y - 30, this.radius * 2, this.radius * 2);
+    }
+}
+
+const bubblePop3 = document.createElement('audio');
+bubblePop3.src = 'Bubble3.mp3';
+const bubblePop4 = document.createElement('audio');
+bubblePop4.src = 'Bubble4.mp3';
+
+function handleBubblesb() {
+    if(gameFrame % 50 == 0) {
+        bubblesArrayb.push(new Bubbleb());
+        console.log(bubblesArrayb.length);
+    }
+    for (let i = 0; i < bubblesArrayb.length; i++) {
+        bubblesArrayb[i].update();
+        bubblesArrayb[i].draw();
+    }
+    for (let i = 0; i < bubblesArrayb.length; i++) {
+        if(bubblesArrayb[i].y < 0 - bubblesArrayb[i].radius * 2) {
+            bubblesArrayb.splice(i, 1);
+        }
+        if(bubblesArrayb[i].distance < bubblesArrayb[i].radius + player.radius) {
+            (console.log('Bubble BUM'));
+            if(!bubblesArrayb[i].counted) {
+                if(bubblesArrayb[i].soundb == 'sound3') {
+                    bubblePop3.play();
+                } else {
+                    bubblePop4.play();
+                }
+                score -= redBubble;
+                bubblesArrayb[i].counted = true;
+                bubblesArrayb.splice(i, 1);
+            }
+        }
+    }
+}
+
+//Pozadí    ----------------------------------------------------------------------------------------------------------------
 const background = new Image();
 background.src = 'Background1.png';
 
-function handleBackground() {
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+/*const background2 = new Image();
+background2.src = 'Background2.png';
+
+const BG = {
+    x1: 0,
+    x2: canvas.width,
+    y: 0,
+    width: canvas.width,
+    height: canvas.height
 }
 
-//Animace
+function handleBackground() {
+    BG.x1 -= gameSpeed;
+    if(BG.x1 < -BG.width) BG.x1 = BG.width;
+    BG.x2 -= gameSpeed;
+    if(BG.x2 < -BG.width) BG.x2 = BG.width;
+    ctx.drawImage(background, BG.x1, BG.y, BG.width, BG.height);
+    ctx.drawImage(background2, BG.x2, BG.y, BG.width, BG.height);
+}*/
+
+//Animace   ----------------------------------------------------------------------------------------------------------------
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    handleBackground();
+    //handleBackground();
     handleBubbles();
+    handleBubblesb();
     player.update();
     player.draw();
     ctx.fillText('Score: ' + score, 10, 50);
