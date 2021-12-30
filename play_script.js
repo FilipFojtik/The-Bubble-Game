@@ -56,7 +56,7 @@ class PLayer {
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
         }
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = 'rgb(212,164,28)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -71,6 +71,7 @@ const player = new PLayer();
 //Animation loop
 function animate() {
     player.update();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.draw();
     requestAnimationFrame(animate);
 }
