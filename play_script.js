@@ -11,6 +11,13 @@ ctx.font = '50px Gill Sans MT';
 let gameSpeed = 1;
 let gameOver = false;
 
+//Timer     ----------------------------------------------------------------------------------------------------------------
+let time = 0;
+function Timer() {
+    time += 1;
+}
+time = setInterval(Timer, 1000);
+
 //Interakce ----------------------------------------------------------------------------------------------------------------
 let canvasPosition = canvas.getBoundingClientRect();
 const mouse = {
@@ -158,7 +165,7 @@ function handleBubbles() {
 //Bubbles -  ----------------------------------------------------------------------------------------------------------------
 const bubblesArraym = [];
 const bubbleImage2 = new Image();
-bubbleImage2.src = 'Bubble_picture5.png';
+bubbleImage2.src = 'Bubble_picture6.png';
 class Bubblem {
     constructor() {
         this.x = Math.random() * canvas.width;
@@ -323,13 +330,14 @@ function handleGameOverB() {
 function handleGameOverT() {
     ctx.fillStyle = 'white';
     ctx.font = 'Bold 40px Gill Sans MT';
-    ctx.fillText('GAME OVER | TOTAL SCORE: ' + score, canvas.width / 2 - 310, canvas.height / 2 + 15);
+    ctx.fillText('GAME OVER', canvas.width / 2 - 130, canvas.height / 2 - 20);
+    ctx.fillText('TOTAL SCORE: ' + score + ' | TIME: ' + time + ' s', canvas.width / 2 - 280, canvas.height / 2 + 40);
     player.splice(i, 1);
 }
 function handleGameOverT2() {
     ctx.fillStyle = 'black';
     ctx.font = 'Bold 40px Gill Sans MT';
-    ctx.fillText('GAME OVER | YOU LOOSE', canvas.width / 2 - 270, canvas.height / 2 + 15);
+    ctx.fillText('GAME OVER | TIME: ' + time + ' s', canvas.width / 2 - 240, canvas.height / 2 + 15);
     player.splice(i, 1);
 }
 
@@ -342,7 +350,8 @@ function animate() {
     handleBubblesm()
     player.update();
     player.draw();
-    ctx.fillText('Score: ' + score, 10, 50);
+    ctx.fillText('SCORE: ' + score, 10, 100);
+    ctx.fillText('TIME: ' + time, 10, 50);
     gameFrame ++;
     if (!gameOver) requestAnimationFrame(animate);
     //console.log(gameFrame);
