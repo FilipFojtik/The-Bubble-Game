@@ -151,6 +151,63 @@ function handleBubbles() {
 }
 
 //Bubbles -  ----------------------------------------------------------------------------------------------------------------
+const bubblesArraym = [];
+const bubbleImage2 = new Image();
+bubbleImage2.src = 'Bubble_picture5.png';
+class Bubblem {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + 100;
+        this.radius = 15;
+        this.speed = Math.random() * 5 + 1;
+        this.distance;
+    }
+    update() {
+        this.y -= this.speed;
+        const dx = this.x - player.x;
+        const dy = this.y - player.y;
+        this.distance = Math.sqrt(dx*dx + dy*dy);
+    }
+    draw() {
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.drawImage(bubbleImage2, this.x - 15, this.y - 15, this.radius * 2, this.radius * 2);
+    }
+}
+
+const bubblePop5 = document.createElement('audio');
+bubblePop5.src = 'Bubble5.mp3';
+
+function handleBubblesm() {
+    if (gameFrame % 50 == 0) {
+        bubblesArraym.push(new Bubblem());
+        console.log(bubblesArraym.length);
+    }
+    for (let i = 0; i < bubblesArraym.length; i++) {
+        bubblesArraym[i].update();
+        bubblesArraym[i].draw();
+    }
+    for (let i = 0; i < bubblesArraym.length; i++) {
+        if(bubblesArraym[i].y < 0 - bubblesArraym[i].radius * 2) {
+            bubblesArraym.splice(i, 1);
+        }
+        if(bubblesArraym[i].distance < bubblesArraym[i].radius + player.radius) {
+            (console.log('Bubble BUM ---'));
+            if(!bubblesArraym[i].counted) {
+                bubblePop5.play();
+                score -= redBubble;
+                bubblesArraym[i].counted = true;
+                bubblesArraym.splice(i, 1);
+            }
+        }
+    }
+}
+
+//Bubbles B  ----------------------------------------------------------------------------------------------------------------
 const bubblesArrayb = [];
 const bubbleImage = new Image();
 bubbleImage.src = 'Bubble_picture3.png';
@@ -199,7 +256,7 @@ function handleBubblesb() {
             bubblesArrayb.splice(i, 1);
         }
         if(bubblesArrayb[i].distance < bubblesArrayb[i].radius + player.radius) {
-            (console.log('Bubble BUM ---'));
+            (console.log('Bubble BUM end'));
             if(!bubblesArrayb[i].counted) {
                 if(bubblesArrayb[i].soundb == 'sound3') {
                     bubblePop3.play();
@@ -266,6 +323,7 @@ function animate() {
     //handleBackground();
     handleBubbles();
     handleBubblesb();
+    handleBubblesm()
     player.update();
     player.draw();
     ctx.fillText('Score: ' + score, 10, 50);
