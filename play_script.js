@@ -202,6 +202,10 @@ function handleBubblesm() {
                 score -= redBubble;
                 bubblesArraym[i].counted = true;
                 bubblesArraym.splice(i, 1);
+                if(score < 0 ) {
+                    handleGameOverB();
+                    handleGameOverT();
+                }
             }
         }
     }
