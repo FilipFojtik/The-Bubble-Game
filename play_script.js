@@ -46,6 +46,7 @@ class PLayer {
         this.frame = 0;
         this.spriteWidth = 498;
         this.spriteHeight = 327;
+        this.scale = 0;
     }
     update() {
         const dx = this.x - mouse.x;
@@ -145,7 +146,7 @@ function handleBubbles() {
                 } else {
                     bubblePop2.play();
                 }
-                player.radius ++;
+                //player.radius ++;
                 score ++;
                 bubblesArray[i].counted = true;
                 bubblesArray.splice(i, 1);
@@ -203,7 +204,7 @@ function handleBubblesm() {
             (console.log('Bubble BUM ---'));
             if(!bubblesArraym[i].counted) {
                 bubblePop5.play();
-                player.radius -= redBubble;
+                //player.radius -= redBubble;
                 score -= redBubble;
                 bubblesArraym[i].counted = true;
                 bubblesArraym.splice(i, 1);
