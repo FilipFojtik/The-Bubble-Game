@@ -90,6 +90,8 @@ const player = new PLayer();
 
 //Bubbles +  ----------------------------------------------------------------------------------------------------------------
 const bubblesArray = [];
+const bubbleImage3 = new Image();
+bubbleImage3.src = 'Bubble_picture4.png';
 class Bubble {
     constructor() {
         this.x = Math.random() * canvas.width;
@@ -107,12 +109,13 @@ class Bubble {
         this.distance = Math.sqrt(dx*dx + dy*dy);
     }
     draw() {
-        ctx.fillStyle = 'white';
+        /*ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.fill();
-        ctx.stroke();
+        ctx.stroke();*/
+        ctx.drawImage(bubbleImage3, this.x - 20, this.y - 20, this.radius * 2, this.radius * 2);
     }
 }
 
@@ -122,7 +125,7 @@ const bubblePop2 = document.createElement('audio');
 bubblePop2.src = 'Bubble2.mp3';
 
 function handleBubbles() {
-    if (gameFrame % 50 == 0) {
+    if (gameFrame % 30 == 0) {
         bubblesArray.push(new Bubble());
         console.log(bubblesArray.length);
     }
@@ -142,6 +145,7 @@ function handleBubbles() {
                 } else {
                     bubblePop2.play();
                 }
+                player.radius ++;
                 score ++;
                 bubblesArray[i].counted = true;
                 bubblesArray.splice(i, 1);
@@ -199,12 +203,13 @@ function handleBubblesm() {
             (console.log('Bubble BUM ---'));
             if(!bubblesArraym[i].counted) {
                 bubblePop5.play();
+                player.radius -= redBubble;
                 score -= redBubble;
                 bubblesArraym[i].counted = true;
                 bubblesArraym.splice(i, 1);
                 if(score < 0 ) {
                     handleGameOverB();
-                    handleGameOverT();
+                    handleGameOverT2();
                 }
             }
         }
@@ -267,7 +272,6 @@ function handleBubblesb() {
                 } else {
                     bubblePop4.play();
                 }
-                //score -= redBubble;
                 bubblesArrayb[i].counted = true;
                 bubblesArrayb.splice(i, 1);
                 handleGameOverB();
@@ -317,7 +321,14 @@ function handleGameOverB() {
 }
 function handleGameOverT() {
     ctx.fillStyle = 'white';
-    ctx.fillText('GAME OVER | Total Score: ' + score, canvas.width / 2 - 300, canvas.height / 2 + 15);
+    ctx.font = 'Bold 40px Gill Sans MT';
+    ctx.fillText('GAME OVER | TOTAL SCORE: ' + score, canvas.width / 2 - 310, canvas.height / 2 + 15);
+    player.splice(i, 1);
+}
+function handleGameOverT2() {
+    ctx.fillStyle = 'black';
+    ctx.font = 'Bold 40px Gill Sans MT';
+    ctx.fillText('GAME OVER | YOU LOOSE', canvas.width / 2 - 270, canvas.height / 2 + 15);
     player.splice(i, 1);
 }
 
