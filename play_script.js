@@ -243,12 +243,15 @@ function handleBackground() {
 //Game Over ----------------------------------------------------------------------------------------------------------------
 const gameOverImage = new Image();
 gameOverImage.src = 'Bubble_picture4.png';
+const gameOverSong = document.createElement('audio');
+gameOverSong.src = 'GameOver.mp3';
 
 function handleGameOverB() {
     ctx.fillStyle = 'rgb(212,164,28)';
     ctx.fillRect(canvas.width / 2 - 350, canvas.height / 2 - 100, 700, 200);
     gameOver = true;
     music.pause();
+    gameOverSong.play();
     localStorage.setItem("LastScore", score);
 }
 function handleGameOverT() {

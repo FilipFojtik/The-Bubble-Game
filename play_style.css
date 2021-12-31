@@ -13,6 +13,25 @@ body {
     background-color: #0E0E0E;
     background-size: 50px 50px;
     background-image: radial-gradient(circle, white 0.25px, rgba(0, 0, 0, 0) 0.8px);
+    animation: changeBackground 59s linear infinite;
+}
+
+@keyframes changeBackground {
+    0% {
+        background-color: #0E0E0E;
+    }
+    25% {
+        background-color: #00060c;
+    }
+    50% {
+        background-color: #0c0000;
+    }
+    75% {
+        background-color: #151100;
+    }
+    100% {
+        background-color: #060c03;
+    }
 }
 
 #canvas1 {
