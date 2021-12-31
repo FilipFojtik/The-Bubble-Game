@@ -14,7 +14,7 @@
     <div class="container">
         <h1>BLACK <strong class="y">/</strong> BANK</h1>
         <h2>The Bubble Game</h2>
-        <h3>Last Score:</h3>
+        <h3>Last Score: <strong id="score"></strong></h3>
     </div>
     <a href="play_bubble.html">
         <span>Play</span>
@@ -24,6 +24,7 @@
     <canvas id="canvasbg"></canvas>
     <canvas id="canvas"></canvas>
     
+    <script>document.getElementById("score").innerHTML = localStorage.getItem("LastScore");</script>
     <script src="menu_script.js"></script>
     <footer></footer>
     <svg>

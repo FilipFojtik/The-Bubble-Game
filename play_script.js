@@ -9,6 +9,7 @@ let redBubble = 5;
 let gameFrame = 0;
 ctx.font = '50px Gill Sans MT';
 let gameSpeed = 1;
+let gameOver = false;
 
 //Interakce ----------------------------------------------------------------------------------------------------------------
 let canvasPosition = canvas.getBoundingClientRect();
@@ -132,7 +133,7 @@ function handleBubbles() {
             bubblesArray.splice(i, 1);
         }
         if(bubblesArray[i].distance < bubblesArray[i].radius + player.radius) {
-            (console.log('Bubble BUM'));
+            (console.log('Bubble BUM +++'));
             if(!bubblesArray[i].counted) {
                 if(bubblesArray[i].sound == 'sound1') {
                     bubblePop1.play();
@@ -196,16 +197,18 @@ function handleBubblesb() {
             bubblesArrayb.splice(i, 1);
         }
         if(bubblesArrayb[i].distance < bubblesArrayb[i].radius + player.radius) {
-            (console.log('Bubble BUM'));
+            (console.log('Bubble BUM ---'));
             if(!bubblesArrayb[i].counted) {
                 if(bubblesArrayb[i].soundb == 'sound3') {
                     bubblePop3.play();
                 } else {
                     bubblePop4.play();
                 }
-                score -= redBubble;
+                //score -= redBubble;
                 bubblesArrayb[i].counted = true;
                 bubblesArrayb.splice(i, 1);
+                handleGameOverB();
+                handleGameOverT();
             }
         }
     }
@@ -235,6 +238,22 @@ function handleBackground() {
     ctx.drawImage(background2, BG.x2, BG.y, BG.width, BG.height);
 }*/
 
+//Game Over ----------------------------------------------------------------------------------------------------------------
+const gameOverImage = new Image();
+gameOverImage.src = 'Bubble_picture4.png';
+
+function handleGameOverB() {
+    ctx.fillStyle = 'rgb(130,3,3)';
+    ctx.fillRect(canvas.width / 2 - 350, canvas.height / 2 - 100, 700, 200);
+    gameOver = true;
+    localStorage.setItem("LastScore", score);
+}
+function handleGameOverT() {
+    ctx.fillStyle = 'white';
+    ctx.fillText('GAME OVER | Total Score: ' + score, canvas.width / 2 - 300, canvas.height / 2 + 15);
+    player.splice(i, 1);
+}
+
 //Animace   ----------------------------------------------------------------------------------------------------------------
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -245,8 +264,8 @@ function animate() {
     player.draw();
     ctx.fillText('Score: ' + score, 10, 50);
     gameFrame ++;
+    if(!gameOver) requestAnimationFrame(animate);
     //console.log(gameFrame);
-    requestAnimationFrame(animate);
 }
 animate();
 
