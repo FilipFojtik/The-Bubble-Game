@@ -31,6 +31,8 @@ canvas.addEventListener('mouseup', function() {
 //Player    ----------------------------------------------------------------------------------------------------------------
 const playerLeft = new Image();
 playerLeft.src = 'Bubble_picture1.png';
+const music = document.createElement('audio');
+music.src = 'Music.mp3';
 //const playerRight = new Image();
 //playerRight.src = 'Bubble_picture2.png';
 class PLayer {
@@ -64,17 +66,17 @@ class PLayer {
             ctx.moveTo(this.x, this.y);
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
+            music.play();
         }
         ctx.fillStyle = 'rgb(212,164,28)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
-
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
-        if(this.x >= mouse.x) {
+        if (this.x >= mouse.x) {
             ctx.drawImage(playerLeft, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight,
             this.spriteWidth, this.spriteHeight, 0 - 50, 0 - 50, this.spriteWidth/3, this.spriteHeight/3);
         } else {
@@ -120,7 +122,7 @@ const bubblePop2 = document.createElement('audio');
 bubblePop2.src = 'Bubble2.mp3';
 
 function handleBubbles() {
-    if(gameFrame % 50 == 0) {
+    if (gameFrame % 50 == 0) {
         bubblesArray.push(new Bubble());
         console.log(bubblesArray.length);
     }
@@ -184,7 +186,7 @@ const bubblePop4 = document.createElement('audio');
 bubblePop4.src = 'Bubble4.mp3';
 
 function handleBubblesb() {
-    if(gameFrame % 50 == 0) {
+    if (gameFrame % 50 == 0) {
         bubblesArrayb.push(new Bubbleb());
         console.log(bubblesArrayb.length);
     }
@@ -243,9 +245,10 @@ const gameOverImage = new Image();
 gameOverImage.src = 'Bubble_picture4.png';
 
 function handleGameOverB() {
-    ctx.fillStyle = 'rgb(130,3,3)';
+    ctx.fillStyle = 'rgb(212,164,28)';
     ctx.fillRect(canvas.width / 2 - 350, canvas.height / 2 - 100, 700, 200);
     gameOver = true;
+    music.pause();
     localStorage.setItem("LastScore", score);
 }
 function handleGameOverT() {
@@ -264,7 +267,7 @@ function animate() {
     player.draw();
     ctx.fillText('Score: ' + score, 10, 50);
     gameFrame ++;
-    if(!gameOver) requestAnimationFrame(animate);
+    if (!gameOver) requestAnimationFrame(animate);
     //console.log(gameFrame);
 }
 animate();

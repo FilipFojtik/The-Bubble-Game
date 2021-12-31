@@ -1,10 +1,9 @@
-// Bubliny 1
+//Canvas    ----------------------------------------------------------------------------------------------------------------
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Bubliny 2
 const canvasbg = document.getElementById('canvasbg');
 const ctxbg = canvasbg.getContext('2d');
 canvasbg.width = window.innerWidth;
@@ -16,11 +15,11 @@ let bgBubbles = [];
 function addBubble() {
     Bubbles.push(new Bubble('rgb(212,212,212)', 3));
 }
-
 function addBgBubble() {
     bgBubbles.push(new Bubble('rgb(212,164,28)', 4));
 }
 
+//Bubbles  ----------------------------------------------------------------------------------------------------------------
 class Bubble {
     constructor (color, ySpeed) {
         this.radius = (Math.random() * 60) + 20;
@@ -73,6 +72,7 @@ function handleBubbles() {
     }
 }
 
+//Animace  ----------------------------------------------------------------------------------------------------------------
 function animate() {
     ctx.clearRect(0,0,canvas.width, canvas.height);
     ctxbg.clearRect(0,0,canvas.width, canvas.height);
@@ -98,7 +98,6 @@ window.addEventListener('resize', function(){
 
     let Bubbles = [];
     let bgBubbles = [];
-
 });
 
 setInterval(function() {console.log(Bubbles.length)}, 1000);
